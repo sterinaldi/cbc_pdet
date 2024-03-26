@@ -71,10 +71,10 @@ class Found_injections:
         self.shape_params = self.shape_ini_values
         
         if self.alpha_vary is None:
-            self.path = f'{os.path.dirname(__file__)}/{self.dmid_fun}' if self.emax_fun is None else f'{os.path.dirname(__file__)}/{self.dmid_fun}/{self.emax_fun}'
+            self.path = f'{self.dmid_fun}' if self.emax_fun is None else f'{self.dmid_fun}/{self.emax_fun}'
           
         else: 
-            self.path = f'{os.path.dirname(__file__)}/alpha_vary/{self.dmid_fun}' if self.emax_fun is None else f'{os.path.dirname(__file__)}/alpha_vary/{self.dmid_fun}/{self.emax_fun}'
+            self.path = f'alpha_vary/{self.dmid_fun}' if self.emax_fun is None else f'alpha_vary/{self.dmid_fun}/{self.emax_fun}'
         
         self.runs = ['o1', 'o2', 'o3']
         
@@ -192,7 +192,7 @@ class Found_injections:
        
     def read_o3_set(self):
         
-        file = h5py.File('{os.path.dirname(__file__)}/endo3_bbhpop-LIGO-T2100113-v12.hdf5', 'r')
+        file = h5py.File(f'{os.path.dirname(__file__)}/endo3_bbhpop-LIGO-T2100113-v12.hdf5', 'r')
         
         #Total number of generated injections
         self.Ntotal = file.attrs['total_generated'] 
@@ -320,7 +320,6 @@ class Found_injections:
             run_fit_touse = 'o3'
             
         try:
-            
             path = f'{os.path.dirname(__file__)}/{run_fit_touse}/' + self.path
             self.dmid_params = np.loadtxt( path + '/joint_fit_dmid.dat')[-1, :-1]
             self.shape_params = np.loadtxt( path + '/joint_fit_shape.dat')[-1, :-1]
@@ -923,7 +922,7 @@ class Found_injections:
         self.make_folders(run_fit)
         
         emax_dic = {None: 'cmds', 'emax_exp' : 'emax_exp_cmds', 'emax_sigmoid' : 'emax_sigmoid_cmds'}
-        path = f'{os.path.dirname(__file__)}/{run_fit}/{self.dmid_fun}' if self.alpha_vary is None else f'{os.path.dirname(__file__)}/{run_fit}/alpha_vary/{self.dmid_fun}'
+        path = f'{run_fit}/{self.dmid_fun}' if self.alpha_vary is None else f'{run_fit}/alpha_vary/{self.dmid_fun}'
         
         try:
             os.mkdir( path + f'/{emax_dic[self.emax_fun]}')
